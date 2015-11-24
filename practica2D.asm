@@ -1,3 +1,4 @@
+#Suma dos numeros
 .data
 	menres: 	.asciiz	"El resultado es: "
 	num1:	.word 3

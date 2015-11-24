@@ -1,3 +1,4 @@
+# Comprobamos que da error
 .data
 	menres: 	.asciiz	"El resultado es: "
 	#num1:	.word 3
