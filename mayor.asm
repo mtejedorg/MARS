@@ -1,14 +1,13 @@
 .data
-	menres: 	.asciiz	"El resultado es: "
+	menen:	.asciiz	"Escriba dos numeros\r\n"
+	menres: 	.asciiz	"El mayor es: "
 	
 .text
 main:
 
-		#lb $t0, num3
-
-		#lw $t0, num1
-
-		#lh $t1, num2
+		li $v0, 4
+		la $a0, menen
+		syscall
 		
 		#Lee el primero y lo mueve a $t0
 		li $v0, 5

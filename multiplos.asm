@@ -1,15 +1,14 @@
 .data
+	menen:	.asciiz	"Escriba dos numeros\r\n"
 	menres: 	.asciiz	"El siguiente múltiplo es: "
 	saltolinea:.asciiz	"\n"
 	
 .text
 main:
 
-		#lb $t0, num3
-
-		#lw $t0, num1
-
-		#lh $t1, num2
+		li $v0, 4
+		la $a0, menen
+		syscall
 		
 		#Lee el primero y lo mueve a $t0
 		li $v0, 5
@@ -30,8 +29,8 @@ main:
 		li $t2, 0
 		
 loop:		addi $t2, $t2, 1
-		mul $t3 $t0, $t2
-		bge $t3, $t4, fin
+		mul $t3, $t0, $t2
+		bgt $t3, $t4, fin
 		
 		li $v0, 4
 		la $a0, menres
@@ -44,6 +43,8 @@ loop:		addi $t2, $t2, 1
 		li $v0, 4
 		la $a0, saltolinea
 		syscall
+		
+		b loop
 		
 fin:		#Finalizamos el programa llamando a exit
 		li $v0, 10
