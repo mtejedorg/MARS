@@ -22,10 +22,26 @@ main:
 		la $t1, buffer
 		
 loop:		lb $t2, 0($t1)
-		beq $t2, 10, cont	#If LF, continues
+		beq $t2, 10, calcpal	#If LF, continues the program
 		addiu $t1, $t1, 1
 		b loop			#else, loops again
 		
-cont:	li $v0, 11
-		lb $a0, 0($t1)		#Test
-		syscall
+calcpal:	subiu $t1, $t1, 1	#So that $t1 is the char before LF
+		lb $t2, 0($t0)
+		lb $t3, 0($t1)
+		bne $t2, $t3, nopal
+		addiu $t0, $t0, 1
+		subiu $t1, $t1, 1
+		bge $t0, $t1, sipal
+		
+sipal:	li $v0, 4
+		la $a0, espal
+		b end
+		
+nopal:	li $v0, 4
+		la $a0, noespal
+		b end			#Not necessary sentence
+		
+end:		syscall
+		
+		
