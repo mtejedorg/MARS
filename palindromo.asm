@@ -1,5 +1,5 @@
 .data
-	menen:	.asciiz	"Escriba una frase\r\n"
+	menen:	.asciiz	"Escriba una frase\n"
 	espal: 	.asciiz	"Es un palindromo"
 	noespal:	.asciiz	"No es un palindromo"
 	buffer:	.space	1024
@@ -21,7 +21,7 @@ main:
 		la $t0, buffer
 		la $t1, buffer
 		
-loop:		lw $t2, 0($t1)
+loop:		lb $t2, 0($t1)
 		beq $t2, 10, cont	#If LF, continues
 		addiu $t1, $t1, 1
 		b loop			#else, loops again
