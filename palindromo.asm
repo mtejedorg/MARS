@@ -6,8 +6,8 @@
 	saltolinea:.asciiz	"\n"
 	
 .text
-main:
 
+main:
 		li $v0, 4
 		la $a0, menen
 		syscall
@@ -22,17 +22,17 @@ main:
 		la $t1, buffer
 		
 loop:		lb $t2, 0($t1)
-		beq $t2, 10, calcpal	#If LF, continues the program
+		beq $t2, 10, calcpal		#If LF, continues the program
 		addiu $t1, $t1, 1
-		b loop			#else, loops again
+		b loop				#else, loops again
 		
-calcpal:	subiu $t1, $t1, 1	#So that $t1 is the char before LF
+calcpal:	subiu $t1, $t1, 1		#So that $t1 is the char before LF
 		lb $t2, 0($t0)
 		lb $t3, 0($t1)
 		bne $t2, $t3, nopal
 		addiu $t0, $t0, 1
-		subiu $t1, $t1, 1
-		bge $t0, $t1, sipal
+		blt $t1, $t0, sipal
+		b calcpal
 		
 sipal:	li $v0, 4
 		la $a0, espal
@@ -40,8 +40,12 @@ sipal:	li $v0, 4
 		
 nopal:	li $v0, 4
 		la $a0, noespal
-		b end			#Not necessary sentence
+		b end				#Not necessary sentence
 		
 end:		syscall
+		li $v0, 10
+		syscall
+
+		
 		
 		
