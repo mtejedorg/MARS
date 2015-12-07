@@ -26,19 +26,38 @@ loop:		lb $t2, 0($t1)
 		addiu $t1, $t1, 1
 		b loop				#else, loops again
 		
-calcpal:	subiu $t1, $t1, 1		#So that $t1 is the char before LF
-		lb $t2, 0($t0)
-		lb $t3, 0($t1)
-		bne $t2, $t3, nopal
-		addiu $t0, $t0, 1
-		blt $t1, $t0, sipal
-		b calcpal
+calcpal:	subi $t0, $t0, 1		# Makes the loop easier
 		
-sipal:	li $v0, 4
+beginning:	addiu $t0, $t0, 1
+		lb $t2, 0($t0)
+
+checknumberbeg:	blt $t2, 48, beginning
+		bgt $t2, 57, checkletterbeg
+		b ending
+		
+checkletterbeg:	blt $t2, 97, beginning
+		bgt $t2, 122, beginning
+
+ending:		subiu $t1, $t1, 1
+		lb $t3, 0($t1)
+		
+checknumberend:	blt $t3, 48, ending
+		bgt $t3, 57, checkletterend
+		b continue
+		
+checkletterend:	blt $t3, 97, ending
+		bgt $t3, 122,ending
+
+continue:	bne $t2, $t3, nopal
+
+		blt $t1, $t0, sipal
+		b beginning
+		
+sipal:		li $v0, 4
 		la $a0, espal
 		b end
 		
-nopal:	li $v0, 4
+nopal:		li $v0, 4
 		la $a0, noespal
 		b end				#Not necessary sentence
 		
