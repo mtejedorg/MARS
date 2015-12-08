@@ -48,17 +48,22 @@ checknumberend:	blt $t3, 48, ending
 checkletterend:	blt $t3, 97, ending
 		bgt $t3, 122,ending
 
-continue:	bne $t2, $t3, nopal
+continue:	bne $t2, $t3, noigual
 
 		blt $t1, $t0, sipal
 		b beginning
 		
-sipal:		li $v0, 4
-		la $a0, espal
-		b end
+noigual:	addi $t4, $t3, 32
+		beq $t2, $t4, sipal
+		subi $t4, $t3, 32
+		beq $t2, $t4, sipal
 		
 nopal:		li $v0, 4
 		la $a0, noespal
+		b end
+		
+sipal:		li $v0, 4
+		la $a0, espal
 		b end				#Not necessary sentence
 		
 end:		syscall
